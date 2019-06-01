@@ -1,0 +1,2 @@
+include ':FtcRobotController', ':FtcDashboard'
+include ':TeamCode'
