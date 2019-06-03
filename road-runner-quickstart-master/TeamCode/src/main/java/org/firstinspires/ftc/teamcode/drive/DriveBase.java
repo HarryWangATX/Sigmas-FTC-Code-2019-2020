@@ -19,7 +19,7 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.*;
  * handled in subclasses.
  */
 @Config
-public abstract class SampleMecanumDriveBase extends MecanumDrive {
+public abstract class DriveBase extends MecanumDrive {
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);
 
@@ -27,7 +27,7 @@ public abstract class SampleMecanumDriveBase extends MecanumDrive {
     private DriveConstraints constraints;
     private TrajectoryFollower follower;
 
-    public SampleMecanumDriveBase() {
+    public DriveBase() {
         super(kV, kStatic, kA, TRACK_WIDTH);
 
         constraints = new MecanumConstraints(BASE_CONSTRAINTS, TRACK_WIDTH);

@@ -22,9 +22,9 @@ public class DriveConstants {
             MotorConfigurationType.getMotorType(NeveRest20Gearmotor.class);
     private static final double TICKS_PER_REV = MOTOR_CONFIG.getTicksPerRev();
 
-    public static double WHEEL_RADIUS = 2; // in
-    public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 1; // in
+    public static final double WHEEL_RADIUS = 2; // in
+    public static final double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
+    public static final double TRACK_WIDTH = 1; // in
 
     public static DriveConstraints BASE_CONSTRAINTS = new DriveConstraints(
             30.0, 30.0, Double.NaN,
@@ -34,6 +34,9 @@ public class DriveConstants {
     public static double kV = 0;
     public static double kA = 0;
     public static double kStatic = 0;
+    public static double kP = 1;
+    public static double kI = 1;
+    public static double kD = 1;
 
 
     public static double encoderTicksToInches(int ticks) {

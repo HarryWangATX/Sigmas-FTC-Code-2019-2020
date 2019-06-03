@@ -8,8 +8,7 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDriveBase;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDriveREV;
+import org.firstinspires.ftc.teamcode.drive.SigmaDriveBase;
 import org.firstinspires.ftc.teamcode.util.DashboardUtil;
 
 /*
@@ -21,7 +20,7 @@ public class TurnTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         FtcDashboard dashboard = FtcDashboard.getInstance();
-        SampleMecanumDriveBase drive = new SampleMecanumDriveREV(hardwareMap);
+        SigmaDriveBase drive = new SigmaDriveBase(hardwareMap);
 
         Trajectory trajectory = drive.trajectoryBuilder()
                 .turnTo(Math.PI / 2)

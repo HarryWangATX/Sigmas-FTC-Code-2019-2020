@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.drive;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
@@ -23,13 +24,13 @@ import java.util.List;
  * Optimized mecanum drive implementation for REV ExHs. The time savings here are enough to cut loop
  * iteration times in half which may significantly improve trajectory following performance.
  */
-public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
+public class SigmaDriveBase extends DriveBase {
     private ExpansionHubEx hub;
     private ExpansionHubMotor leftFront, leftRear, rightRear, rightFront;
     private List<ExpansionHubMotor> motors;
     private BNO055IMU imu;
 
-    public SampleMecanumDriveREVOptimized(HardwareMap hardwareMap) {
+    public SigmaDriveBase(HardwareMap hardwareMap) {
         super();
 
         RevExtensions2.init();
@@ -63,10 +64,15 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
 
-        // TODO: reverse any motors using DcMotor.setDirection()
+        leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftRear.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // TODO: set the tuned coefficients from DriveVelocityPIDTuner if using RUN_USING_ENCODER
         // setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, ...);
+
+        this.setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDCoefficients(DriveConstants.kP, DriveConstants.kI, DriveConstants.kD));
     }
 
     @Override
