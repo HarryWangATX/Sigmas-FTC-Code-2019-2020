@@ -19,25 +19,26 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.prefs.BackingStoreException;
 
 /*
- * Optimized mecanum drive implementation for REV ExHs. The time savings here are enough to cut loop
- * iteration times in half which may significantly improve trajectory following performance.
+ * Optimized mecanum drive implementation for REV ExHs. The time savings may significantly improve
+ * trajectory following performance with moderate additional complexity.
  */
-public class SigmaDriveBase extends DriveBase {
+public class SigmaDrive extends Drivebase {
     private ExpansionHubEx hub;
     private ExpansionHubMotor leftFront, leftRear, rightRear, rightFront;
     private List<ExpansionHubMotor> motors;
     private BNO055IMU imu;
 
-    public SigmaDriveBase(HardwareMap hardwareMap) {
+    public SigmaDrive(HardwareMap hardwareMap) {
         super();
 
         RevExtensions2.init();
 
         // TODO: adjust the names of the following hardware devices to match your configuration
         // for simplicity, we assume that the desired IMU and drive motors are on the same hub
-        // note: this strategy is still applicable even if the drive motors are split between hubs
+        // if your motors are split between hubs, **you will need to add another bulk read**
         hub = hardwareMap.get(ExpansionHubEx.class, "hub");
 
         imu = LynxOptimizedI2cFactory.createLynxEmbeddedImu(hub.getStandardModule(), 0);
@@ -64,15 +65,18 @@ public class SigmaDriveBase extends DriveBase {
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
 
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
-        rightRear.setDirection(DcMotorSimple.Direction.FORWARD);
+        // TODO: reverse any motors using DcMotor.setDirection()
+
+        leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftRear.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // TODO: set the tuned coefficients from DriveVelocityPIDTuner if using RUN_USING_ENCODER
         // setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, ...);
 
-        //this.setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDCoefficients(DriveConstants.kP, DriveConstants.kI, DriveConstants.kD));
+        // TODO: if desired, use setLocalizer() to change the localization method
+        // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
     }
 
     @Override

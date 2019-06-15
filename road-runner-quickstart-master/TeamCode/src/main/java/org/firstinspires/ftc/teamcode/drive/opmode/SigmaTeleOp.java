@@ -4,17 +4,16 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.drive.SigmaDriveBase;
-import org.firstinspires.ftc.teamcode.gamepad.SigmaGamepad;
+import org.firstinspires.ftc.teamcode.drive.SigmaDrive;
 
 @Config
 @TeleOp(group="opmode")
 public class SigmaTeleOp extends LinearOpMode {
-    private SigmaDriveBase drive;
+    private SigmaDrive drive;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        drive = new SigmaDriveBase(hardwareMap);
+        drive = new SigmaDrive(hardwareMap);
 
         while(opModeIsActive())
         {

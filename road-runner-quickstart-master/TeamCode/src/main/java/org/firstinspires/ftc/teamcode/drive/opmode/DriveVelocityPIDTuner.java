@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.drive.opmode;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.config.ValueProvider;
+import com.acmerobotics.dashboard.config.variable.BasicVariable;
+import com.acmerobotics.dashboard.config.variable.CustomVariable;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -15,7 +17,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
-import org.firstinspires.ftc.teamcode.drive.SigmaDriveBase;
+import org.firstinspires.ftc.teamcode.drive.Drivebase;
+import org.firstinspires.ftc.teamcode.drive.SigmaDrive;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +37,7 @@ import java.util.List;
 @Config
 @Autonomous(group = "drive")
 public class DriveVelocityPIDTuner extends LinearOpMode {
-    public static double DISTANCE = 40;
+    public static double DISTANCE = 72;
 
     /*
      * If true, the kV value is computed from the free speed determined by the manufacturer (likely
@@ -42,25 +45,82 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
      */
     public static boolean USE_THEORETICAL_KV = true;
 
+    private FtcDashboard dashboard = FtcDashboard.getInstance();
+    private CustomVariable catVar;
+
+    private Drivebase drive;
+
+    private static MotionProfile generateProfile(boolean movingForward) {
+        MotionState start = new MotionState(movingForward ? 0 : DISTANCE, 0, 0, 0);
+        MotionState goal = new MotionState(movingForward ? DISTANCE : 0, 0, 0, 0);
+        return MotionProfileGenerator.generateSimpleMotionProfile(start, goal,
+                DriveConstants.BASE_CONSTRAINTS.maxVel, DriveConstants.BASE_CONSTRAINTS.maxAccel);
+    }
+
+    private void addPidVariable() {
+        String catName = getClass().getSimpleName();
+        catVar = (CustomVariable) dashboard.getConfigRoot().getVariable(catName);
+        if (catVar == null) {
+            // this should never happen...
+            catVar = new CustomVariable();
+            dashboard.getConfigRoot().putVariable(catName, catVar);
+        }
+        CustomVariable pidVar = new CustomVariable();
+        pidVar.putVariable("kP", new BasicVariable<>(new ValueProvider<Double>() {
+            @Override
+            public Double get() {
+                return drive.getPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER).kP;
+            }
+
+            @Override
+            public void set(Double value) {
+                PIDCoefficients coeffs = drive.getPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
+                drive.setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER,
+                        new PIDCoefficients(value, coeffs.kI, coeffs.kD));
+            }
+        }));
+        pidVar.putVariable("kI", new BasicVariable<>(new ValueProvider<Double>() {
+            @Override
+            public Double get() {
+                return drive.getPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER).kI;
+            }
+
+            @Override
+            public void set(Double value) {
+                PIDCoefficients coeffs = drive.getPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
+                drive.setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER,
+                        new PIDCoefficients(coeffs.kP, value, coeffs.kD));
+            }
+        }));
+        pidVar.putVariable("kD", new BasicVariable<>(new ValueProvider<Double>() {
+            @Override
+            public Double get() {
+                return drive.getPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER).kD;
+            }
+
+            @Override
+            public void set(Double value) {
+                PIDCoefficients coeffs = drive.getPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
+                drive.setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER,
+                        new PIDCoefficients(coeffs.kP, coeffs.kI, value));
+            }
+        }));
+        catVar.putVariable("VELO_PID", pidVar);
+        dashboard.updateConfig();
+    }
+
+    private void removePidVariable() {
+        catVar.removeVariable("VELO_PID");
+        dashboard.updateConfig();
+    }
+
     @Override
     public void runOpMode() {
-        FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
 
-        SigmaDriveBase drive = new SigmaDriveBase(hardwareMap);
+        drive = new SigmaDrive(hardwareMap);
 
-        dashboard.addConfigVariable("DriveVelocityPIDTuner", "VELO_PID",
-                new ValueProvider<PIDCoefficients>() {
-                    @Override
-                    public PIDCoefficients get() {
-                        return drive.getPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
-                    }
-
-                    @Override
-                    public void set(PIDCoefficients value) {
-                        drive.setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, value);
-                    }
-                });
+        addPidVariable();
 
         NanoClock clock = NanoClock.system();
 
@@ -72,12 +132,17 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
 
         if (isStopRequested()) return;
 
+<<<<<<< Updated upstream
         MotionProfile activeProfile = new MotionProfile();
         boolean movingForwards = false;
+=======
+        boolean movingForwards = true;
+        MotionProfile activeProfile = generateProfile(true);
+        double profileStartTimestamp = clock.seconds();
+>>>>>>> Stashed changes
 
         List<Double> lastWheelPositions = null;
         double lastTimestamp = 0;
-        double profileStartTimestamp = clock.seconds();
 
         double maxVel = DriveConstants.rpmToVelocity(DriveConstants.getMaxRpm());
         double kV = USE_THEORETICAL_KV ? (1.0 / maxVel) : DriveConstants.kV;
@@ -90,10 +155,7 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
             if (profileTime > activeProfile.duration()) {
                 // generate a new profile
                 movingForwards = !movingForwards;
-                MotionState start = new MotionState(movingForwards ? 0 : DISTANCE, 0, 0, 0);
-                MotionState goal = new MotionState(movingForwards ? DISTANCE : 0, 0, 0, 0);
-                activeProfile = MotionProfileGenerator.generateSimpleMotionProfile(start, goal,
-                        DriveConstants.BASE_CONSTRAINTS.maxVel, DriveConstants.BASE_CONSTRAINTS.maxAccel);
+                activeProfile = generateProfile(movingForwards);
                 profileStartTimestamp = clock.seconds();
             }
             MotionState motionState = activeProfile.get(profileTime);
@@ -118,5 +180,7 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
             }
             lastWheelPositions = wheelPositions;
         }
+
+        removePidVariable();
     }
 }

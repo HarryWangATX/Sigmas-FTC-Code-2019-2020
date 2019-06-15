@@ -18,22 +18,30 @@ public class DriveConstants {
      * adjust them in the dashboard; **config variable changes don't persist between app restarts**.
      */
 
+<<<<<<< Updated upstream
     private static final MotorConfigurationType MOTOR_CONFIG =
             MotorConfigurationType.getMotorType(NeveRest20Gearmotor.class);
     private static final double TICKS_PER_REV = MOTOR_CONFIG.getTicksPerRev();
+=======
+    /* private static final MotorConfigurationType MOTOR_CONFIG =
+            MotorConfigurationType.getMotorType(RevRobotics20HdHexMotor.class); */
+>>>>>>> Stashed changes
 
-    public static final double WHEEL_RADIUS = 1.9685; // in
-    public static final double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static final double TRACK_WIDTH = 1; // in
+    private static final double TICKS_PER_REV = 560; //REV HD Orbital 20
+
+    public static double WHEEL_RADIUS = 1.9685; // in
+    public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
+    public static double TRACK_WIDTH = 1; // in
 
     public static DriveConstraints BASE_CONSTRAINTS = new DriveConstraints(
-            30.0, 30.0, Double.NaN,
-            Math.PI / 2, Math.PI / 2, Double.NaN
+            30.0, 30.0, 0.0,
+            Math.PI / 2, Math.PI / 2, 0.0
     );
 
-    public static double kV = .01037;
-    public static double kA = 0.00284;
-    public static double kStatic = .04399;
+    public static double kV = 0;
+    public static double kA = 0;
+    public static double kStatic = 0;
+
     public static double kP = 1;
     public static double kI = 1;
     public static double kD = 1;
@@ -48,6 +56,10 @@ public class DriveConstants {
     }
 
     public static double getMaxRpm() {
+<<<<<<< Updated upstream
         return MOTOR_CONFIG.getMaxRPM();
+=======
+        return 300; //REV HD Orbital 20
+>>>>>>> Stashed changes
     }
 }

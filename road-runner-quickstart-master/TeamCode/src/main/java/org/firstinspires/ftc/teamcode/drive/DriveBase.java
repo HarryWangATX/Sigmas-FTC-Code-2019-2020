@@ -19,7 +19,7 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.*;
  * handled in subclasses.
  */
 @Config
-public abstract class DriveBase extends MecanumDrive {
+public abstract class Drivebase extends MecanumDrive {
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);
 
@@ -27,8 +27,20 @@ public abstract class DriveBase extends MecanumDrive {
     private DriveConstraints constraints;
     private TrajectoryFollower follower;
 
+<<<<<<< Updated upstream
     public DriveBase() {
         super(kV, kStatic, kA, TRACK_WIDTH);
+=======
+    public Drivebase() {
+        super(kV, kA, kStatic, TRACK_WIDTH);
+
+        dashboard = FtcDashboard.getInstance();
+        clock = NanoClock.system();
+
+        mode = Mode.IDLE;
+
+        turnController = new PIDFController(HEADING_PID);
+>>>>>>> Stashed changes
 
         constraints = new MecanumConstraints(BASE_CONSTRAINTS, TRACK_WIDTH);
         follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID);
