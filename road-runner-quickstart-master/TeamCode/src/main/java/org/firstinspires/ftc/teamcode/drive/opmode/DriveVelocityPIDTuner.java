@@ -34,7 +34,7 @@ import java.util.List;
 @Config
 @Autonomous(group = "drive")
 public class DriveVelocityPIDTuner extends LinearOpMode {
-    public static double DISTANCE = 72;
+    public static double DISTANCE = 40;
 
     /*
      * If true, the kV value is computed from the free speed determined by the manufacturer (likely

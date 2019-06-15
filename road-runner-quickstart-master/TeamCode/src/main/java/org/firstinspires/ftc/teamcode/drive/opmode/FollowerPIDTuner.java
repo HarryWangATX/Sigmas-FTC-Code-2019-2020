@@ -21,7 +21,7 @@ public class FollowerPIDTuner extends LinearOpMode {
         FtcDashboard dashboard = FtcDashboard.getInstance();
         SigmaDriveBase drive = new SigmaDriveBase(hardwareMap);
 
-        drive.setPoseEstimate(new Pose2d(-24, -24, 0));
+        drive.setPoseEstimate(new Pose2d(0,0,0));
         Trajectory trajectory = drive.trajectoryBuilder()
                 .forward(48)
                 .turn(Math.toRadians(90))
