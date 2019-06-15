@@ -72,7 +72,7 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        MotionProfile activeProfile = new MotionProfile();
+        MotionProfile activeProfile;
         boolean movingForwards = false;
 
         List<Double> lastWheelPositions = null;

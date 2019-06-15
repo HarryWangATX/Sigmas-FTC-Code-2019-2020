@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.drive;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.trajectory.constraints.DriveConstraints;
 import com.qualcomm.hardware.motors.NeveRest20Gearmotor;
+import com.qualcomm.hardware.motors.RevRobotics20HdHexMotor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 /*
@@ -20,7 +21,7 @@ public class DriveConstants {
 
     private static final MotorConfigurationType MOTOR_CONFIG =
             MotorConfigurationType.getMotorType(NeveRest20Gearmotor.class);
-    private static final double TICKS_PER_REV = MOTOR_CONFIG.getTicksPerRev();
+    private static final double TICKS_PER_REV = 560;
 
     public static final double WHEEL_RADIUS = 1.9685; // in
     public static final double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
@@ -48,6 +49,6 @@ public class DriveConstants {
     }
 
     public static double getMaxRpm() {
-        return MOTOR_CONFIG.getMaxRPM();
+        return 300;
     }
 }
