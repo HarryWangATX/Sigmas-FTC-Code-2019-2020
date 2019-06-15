@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.internal.system.Misc;
-import org.firstinspires.ftc.teamcode.drive.Drivebase;
 import org.firstinspires.ftc.teamcode.drive.SigmaDrive;
 
 /*
@@ -24,7 +23,7 @@ public class OldTrackWidthTuner extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Drivebase drive = new SigmaDrive(hardwareMap);
+        SigmaDrive drive = new SigmaDrive(hardwareMap);
         // it's important that the IMU/gyro/heading sensor is not part of the localization
         drive.setLocalizer(new MecanumDrive.MecanumLocalizer(drive, false));
 

@@ -18,16 +18,9 @@ public class DriveConstants {
      * adjust them in the dashboard; **config variable changes don't persist between app restarts**.
      */
 
-<<<<<<< Updated upstream
-    private static final MotorConfigurationType MOTOR_CONFIG =
-            MotorConfigurationType.getMotorType(NeveRest20Gearmotor.class);
-    private static final double TICKS_PER_REV = MOTOR_CONFIG.getTicksPerRev();
-=======
     /* private static final MotorConfigurationType MOTOR_CONFIG =
-            MotorConfigurationType.getMotorType(RevRobotics20HdHexMotor.class); */
->>>>>>> Stashed changes
-
-    private static final double TICKS_PER_REV = 560; //REV HD Orbital 20
+            MotorConfigurationType.getMotorType(NeveRest20Gearmotor.class); */
+    private static final double TICKS_PER_REV = 560; //REV Orbital 20
 
     public static double WHEEL_RADIUS = 1.9685; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
@@ -56,10 +49,6 @@ public class DriveConstants {
     }
 
     public static double getMaxRpm() {
-<<<<<<< Updated upstream
-        return MOTOR_CONFIG.getMaxRPM();
-=======
-        return 300; //REV HD Orbital 20
->>>>>>> Stashed changes
+        return 300; //REV Orbital 20
     }
 }

@@ -4,7 +4,6 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.drive.Drivebase;
 import org.firstinspires.ftc.teamcode.drive.SigmaDrive;
 
 /*
@@ -14,19 +13,7 @@ import org.firstinspires.ftc.teamcode.drive.SigmaDrive;
 public class SplineTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-<<<<<<< Updated upstream
-        FtcDashboard dashboard = FtcDashboard.getInstance();
-        SigmaDriveBase drive = new SigmaDriveBase(hardwareMap);
-
-        Trajectory trajectory = drive.trajectoryBuilder()
-                .splineTo(new Pose2d(30, 30, 0))
-                .waitFor(1)
-                .reverse()
-                .splineTo(new Pose2d(0, 0, 0))
-                .build();
-=======
-        Drivebase drive = new SigmaDrive(hardwareMap);
->>>>>>> Stashed changes
+        SigmaDrive drive = new SigmaDrive(hardwareMap);
 
         waitForStart();
 

@@ -4,7 +4,6 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.drive.Drivebase;
 import org.firstinspires.ftc.teamcode.drive.SigmaDrive;
 
 /*
@@ -15,7 +14,7 @@ import org.firstinspires.ftc.teamcode.drive.SigmaDrive;
 public class StraightTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        Drivebase drive = new SigmaDrive(hardwareMap);
+        SigmaDrive drive = new SigmaDrive(hardwareMap);
 
         Trajectory trajectory = drive.trajectoryBuilder()
                 .forward(60)

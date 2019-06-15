@@ -17,7 +17,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
-import org.firstinspires.ftc.teamcode.drive.Drivebase;
 import org.firstinspires.ftc.teamcode.drive.SigmaDrive;
 
 import java.util.ArrayList;
@@ -37,7 +36,7 @@ import java.util.List;
 @Config
 @Autonomous(group = "drive")
 public class DriveVelocityPIDTuner extends LinearOpMode {
-    public static double DISTANCE = 72;
+    public static double DISTANCE = 50;
 
     /*
      * If true, the kV value is computed from the free speed determined by the manufacturer (likely
@@ -48,7 +47,7 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
     private FtcDashboard dashboard = FtcDashboard.getInstance();
     private CustomVariable catVar;
 
-    private Drivebase drive;
+    private SigmaDrive drive;
 
     private static MotionProfile generateProfile(boolean movingForward) {
         MotionState start = new MotionState(movingForward ? 0 : DISTANCE, 0, 0, 0);
@@ -132,14 +131,9 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-<<<<<<< Updated upstream
-        MotionProfile activeProfile = new MotionProfile();
-        boolean movingForwards = false;
-=======
         boolean movingForwards = true;
         MotionProfile activeProfile = generateProfile(true);
         double profileStartTimestamp = clock.seconds();
->>>>>>> Stashed changes
 
         List<Double> lastWheelPositions = null;
         double lastTimestamp = 0;

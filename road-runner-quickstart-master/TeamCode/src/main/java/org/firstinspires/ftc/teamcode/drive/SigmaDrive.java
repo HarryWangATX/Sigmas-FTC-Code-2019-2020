@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.drive;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
@@ -19,7 +18,6 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.prefs.BackingStoreException;
 
 /*
  * Optimized mecanum drive implementation for REV ExHs. The time savings may significantly improve
@@ -67,13 +65,10 @@ public class SigmaDrive extends Drivebase {
 
         // TODO: reverse any motors using DcMotor.setDirection()
 
-        leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
-        leftRear.setDirection(DcMotorSimple.Direction.FORWARD);
-        rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-
         // TODO: set the tuned coefficients from DriveVelocityPIDTuner if using RUN_USING_ENCODER
         // setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, ...);
+
+        setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDCoefficients(kI, kI, kD));
 
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));

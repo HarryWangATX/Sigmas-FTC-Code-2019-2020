@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.internal.system.Misc;
-import org.firstinspires.ftc.teamcode.drive.Drivebase;
+
 import org.firstinspires.ftc.teamcode.drive.SigmaDrive;
 import org.firstinspires.ftc.teamcode.util.LoggingUtil;
 
@@ -31,11 +31,11 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.rpmToVelocity;
 @Autonomous(group = "drive")
 public class DriveFeedforwardTuner extends LinearOpMode {
     public static final double MAX_POWER = 0.7;
-    public static final double DISTANCE = 100;
+    public static final double DISTANCE = 40;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Drivebase drive = new SigmaDrive(hardwareMap);
+        SigmaDrive drive = new SigmaDrive(hardwareMap);
 
         NanoClock clock = NanoClock.system();
 
