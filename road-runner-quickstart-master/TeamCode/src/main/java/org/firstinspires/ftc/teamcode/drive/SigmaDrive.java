@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.drive;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
@@ -65,10 +66,15 @@ public class SigmaDrive extends Drivebase {
 
         // TODO: reverse any motors using DcMotor.setDirection()
 
+        leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightRear.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
+
         // TODO: set the tuned coefficients from DriveVelocityPIDTuner if using RUN_USING_ENCODER
         // setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, ...);
 
-        setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDCoefficients(kI, kI, kD));
+        //setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDCoefficients(kI, kI, kD));
 
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
