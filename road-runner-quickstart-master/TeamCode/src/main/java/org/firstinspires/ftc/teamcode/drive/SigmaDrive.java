@@ -53,6 +53,11 @@ public class SigmaDrive extends Drivebase {
         rightRear = hardwareMap.get(ExpansionHubMotor.class, "rightRear");
         rightFront = hardwareMap.get(ExpansionHubMotor.class, "rightFront");
 
+        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
         for (ExpansionHubMotor motor : motors) {
@@ -108,8 +113,14 @@ public class SigmaDrive extends Drivebase {
         List<Double> wheelPositions = new ArrayList<>();
         for (ExpansionHubMotor motor : motors) {
             wheelPositions.add(encoderTicksToInches(bulkData.getMotorCurrentPosition(motor)));
+            //wheelPositions.add(bulkData.getMotorCurrentPosition(motor) + 0.0);
         }
         return wheelPositions;
+    }
+
+    public boolean motorsAreBusy()
+    {
+        return (leftFront.isBusy() && leftRear.isBusy()) || (rightFront.isBusy() && rightRear.isBusy());
     }
 
     @Override
@@ -118,6 +129,18 @@ public class SigmaDrive extends Drivebase {
         leftRear.setPower(v1);
         rightRear.setPower(v2);
         rightFront.setPower(v3);
+    }
+
+    public void setTargetPositions(int v, int v1, int v2, int v3)
+    {
+        for(ExpansionHubMotor motor : motors)
+        {
+            motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        leftFront.setTargetPosition(v);
+        leftRear.setTargetPosition(v1);
+        rightRear.setTargetPosition(v2);
+        rightFront.setTargetPosition(v3);
     }
 
     @Override

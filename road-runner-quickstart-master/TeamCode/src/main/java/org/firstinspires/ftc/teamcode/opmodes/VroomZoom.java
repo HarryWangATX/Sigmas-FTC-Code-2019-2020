@@ -16,8 +16,14 @@ public class VroomZoom extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         drive = new SigmaDrive(hardwareMap);
+        telemetry.addData("Initialized...","");
+        telemetry.update();
 
-        while(opModeIsActive())
+        waitForStart();
+
+        if(isStopRequested()) return;
+
+        while(opModeIsActive() && !isStopRequested())
         {
             //START OF GAMEPAD1 CONTROL
             double lf = gamepad1.left_stick_y - (gamepad1.left_stick_x)  - gamepad1.right_stick_x;
@@ -34,6 +40,9 @@ public class VroomZoom extends LinearOpMode {
                 lr /= wheelPowers[3];
                 rr /= wheelPowers[3];
             }
+
+            telemetry.addData("Motor positions", (drive.getWheelPositions()));
+            telemetry.update();
 
             drive.setMotorPowers(lf,lr,rr,rf);
             //END OF GAMEPAD1 CONTROL
