@@ -147,4 +147,24 @@ public class SigmaDrive extends Drivebase {
     public double getRawExternalHeading() {
         return imu.getAngularOrientation().firstAngle;
     }
+
+    public void driveTeleOp(double left_stick_x, double left_stick_y, double right_stick_x)
+    {
+        double lf = left_stick_y - (left_stick_x)  - right_stick_x;
+        double rf = left_stick_y  + (left_stick_x) + right_stick_x;
+        double lr = left_stick_y  + (left_stick_x)  - right_stick_x;
+        double rr = left_stick_y - (left_stick_x) + right_stick_x;
+
+        //Move range to between 0 and +1, if not already
+        double[] wheelPowers = {rf, lf, lr, rr};
+        Arrays.sort(wheelPowers);
+        if (wheelPowers[3] > 1) {
+            lf /= wheelPowers[3];
+            rf /= wheelPowers[3];
+            lr /= wheelPowers[3];
+            rr /= wheelPowers[3];
+        }
+
+        this.setMotorPowers(lf,lr,rr,rf);
+    }
 }
