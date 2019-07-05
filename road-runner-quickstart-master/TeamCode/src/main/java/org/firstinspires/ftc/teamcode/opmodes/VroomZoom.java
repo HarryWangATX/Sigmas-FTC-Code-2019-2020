@@ -47,7 +47,7 @@ public class VroomZoom extends org.firstinspires.ftc.teamcode.opmodes.TeleOp {
             //END OF GAMEPAD1 CONTROL
 
             //LOGGING
-            this.logData();
+            endLoop();
         }
     }
 }
